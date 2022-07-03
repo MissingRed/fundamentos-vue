@@ -8,14 +8,22 @@
   </head>
   <body>
     <script src="https://unpkg.com/vue@next"></script>
-    <div id="app">{{text}}</div>
+    <div id="app"></div>
     <script>
       Vue.createApp({
         data() {
           return {
             text: "Hola Mundo",
+            img: "https://i.picsum.photos/id/1/5616/3744.jpg?hmac=kKHwwU8s46oNettHKwJ24qOlIAsWN9d2TtsXDoCWWsQ",
+            attr: "src",
           };
         },
+        template: `
+          <div>
+            <h1 v-text="text"></h1>
+            <img v-bind:[attr]="img" v-bind:alt="img">
+          </div>
+        `,
       }).mount("#app");
     </script>
   </body>
