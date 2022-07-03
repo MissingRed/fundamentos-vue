@@ -10,15 +10,18 @@
     <script src="https://unpkg.com/vue@next"></script>
     <div id="app"></div>
     <script>
+      // Esto es una prueba de como se puede usar Vue.js
       Vue.createApp({
         data() {
           return {
+            // Declaraciòn de las variables a utilizar
             text: "Hola Mundo",
             img: "https://i.picsum.photos/id/1/5616/3744.jpg?hmac=kKHwwU8s46oNettHKwJ24qOlIAsWN9d2TtsXDoCWWsQ",
             attr: "src",
             counter: 0,
           };
         },
+        // Se define el atributo metodos para crear las funciones a utilizar dentro de los eventos
         methods: {
           increment(e) {
             this.counter++;
@@ -27,6 +30,11 @@
             this.counter--;
           },
         },
+        // Prevent default para evitar que se envie el formulario
+        //V-text sirve para mostrar texto
+        //V-bind permite enlazar (bindear) una variable de Vue con un atributo específico de una etiqueta HTML
+        //V-on permite crear un evento para una etiqueta HTML
+
         template: `
           <div>
             <h1 v-text="text"></h1>
