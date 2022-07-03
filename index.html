@@ -16,12 +16,32 @@
             text: "Hola Mundo",
             img: "https://i.picsum.photos/id/1/5616/3744.jpg?hmac=kKHwwU8s46oNettHKwJ24qOlIAsWN9d2TtsXDoCWWsQ",
             attr: "src",
+            counter: 0,
           };
+        },
+        methods: {
+          increment(e) {
+            this.counter++;
+          },
+          decrement(e) {
+            this.counter--;
+          },
         },
         template: `
           <div>
             <h1 v-text="text"></h1>
-            <img v-bind:[attr]="img" v-bind:alt="img">
+            <img v-bind:[attr]="img" v-bind:alt="img" width="500">
+            <br />
+            <form >
+                <button v-on:click.prevent="decrement">
+               -
+              </button>
+              <p>{{counter}}</p>
+                <button v-on:click.prevent="increment">
+               +
+              </button>
+
+            </form>
           </div>
         `,
       }).mount("#app");
