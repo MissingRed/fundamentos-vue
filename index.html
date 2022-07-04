@@ -24,9 +24,15 @@
             firstName: "Daniel",
             lastName: "Rodriguez",
             now: new Date(),
-            puerta: "Puerta cerrada",
+            puerta: "Accede a tu cuenta",
             open: false,
             username: "",
+            addPost: {
+              title: "",
+              description: "",
+            },
+            posts: [{ title: "Titulo 1", description: "Description 1" }],
+            editButton: false,
           };
         },
         // Se define el atributo metodos para crear las funciones a utilizar dentro de los eventos
@@ -37,9 +43,21 @@
           decrement(e) {
             this.counter--;
           },
-          input(e) {
-            this.text2 = e.target.value;
+          sendPost() {
+            this.posts.push({
+              title: this.addPost.title,
+              description: this.addPost.description,
+            });
+            this.addPost.title = "";
+            this.addPost.description = "";
           },
+          editPost(i) {
+            this.addPost.title = this.posts[i].title;
+            this.addPost.description = this.posts[i].description;
+            this.editButton = true;
+          },
+
+          editPostInput() {},
         },
         computed: {
           fullName() {
@@ -72,8 +90,8 @@
         //V-model es la union del v-on y v-bind
 
         template: `
-        <div>
-        <h1 v-text="text"></h1>
+
+        <!--<h1 v-text="text"></h1>
         <img v-bind:[attr]="img" v-bind:alt="img" width="500" />
         <br />
         <form>
@@ -88,14 +106,33 @@
         <input type="text" v-model="text3" />
         <div>{{ fullName }}</div>
         <div>{{ today }}</div>
-        <hr />
+        <hr />-->
+
         <div class="container" :class="styles">
           <h2>{{ puerta }}</h2>
-          <div v-if="open">
+          <div v-if="open" class="content">
             <p>Hola, {{ username }}</p>
+            <div class="form">
+                <div class="form-content">
+                    <input type="text" v-model="addPost.title" placeholder="Titulo" />
+                    <input type="text" v-model="addPost.description" placeholder="Descripcion" />
+                    <button @click="sendPost" v-if="!editButton">Enviar</button>
+                    <button @click="editPostInput" v-if="editButton">Editar</button>
+                </div>
+            </div>
+            <div class="list">
+                <div class="item" v-for="(item, i) in posts" :key="i">
+                    <div class="title">{{item.title}}</div>
+                    <p>{{item.description}}</p>
+                    <div>
+                        <button @click="editPost(i)">Editar</button>
+                         <button @click="posts.splice(i, 1)">Eliminar</button>
+                    </div>
+                </div>
+            </div>
           </div>
           <div v-else>
-            <label>username:</label>
+            <div>username</div>
             <input type="text" v-model="username" />
           </div>
           <button @click="open = !open">
@@ -103,7 +140,6 @@
             <div v-else>Salir</div>
           </button>
         </div>
-      </div>
         `,
       }).mount("#app");
     </script>
@@ -126,15 +162,64 @@
       button {
         margin-top: 24px;
         border: none;
-        background-color: white;
+        background-color: cornflowerblue;
         padding: 8px 24px;
-        border-radius: 12px;
+        border-radius: 5px;
+        margin-left: 10px;
+        color: white;
+        font-weight: bolder;
       }
       .closed {
         background-color: #eca1a6;
       }
       .open {
         background-color: #b5e7a0;
+      }
+      .list {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #f5f5f5;
+        border-radius: 12px;
+        margin: 24px;
+        padding: 20px;
+      }
+      .title {
+        font-size: 24px;
+        font-weight: bold;
+      }
+      .form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .form-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      input {
+        margin-top: 8px;
+        border: none;
+        border-radius: 5px;
+        border-bottom: 1px solid #ccc;
+        padding: 8px;
+        width: 100%;
+        outline: none;
       }
     </style>
   </body>
