@@ -26,6 +26,7 @@
             now: new Date(),
             puerta: "Puerta cerrada",
             open: false,
+            username: "",
           };
         },
         // Se define el atributo metodos para crear las funciones a utilizar dentro de los eventos
@@ -47,13 +48,20 @@
           today() {
             return this.now.toLocaleDateString();
           },
+          label() {
+            return this.open ? "Cerrar" : "Abrir";
+          },
+          styles() {
+            return this.open ? ["open"] : ["closed"];
+          },
         },
         watch: {
           open(value) {
             if (value) {
-              this.puerta = "Puerta abierta";
+              this.puerta = "Cierra sesiòn";
             } else {
-              this.puerta = "Puerta cerrada";
+              this.puerta = "Accede a tu cuenta";
+              this.username = "";
             }
           },
         },
@@ -64,32 +72,70 @@
         //V-model es la union del v-on y v-bind
 
         template: `
-          <div>
-            <h1 v-text="text"></h1>
-            <img v-bind:[attr]="img" v-bind:alt="img" width="500">
-            <br />
-            <form >
-                <button v-on:click.prevent="decrement">
-               -
-              </button>
-              <p>{{counter}}</p>
-                <button v-on:click.prevent="increment">
-               +
-              </button>
-            </form>
-            <hr />
-            <p>{{text2}}</p>
-            <input type="text" @input="input" :value="text2" />
-            <p>{{text3}}</p>
-            <input type="text" v-model="text3" />
-            <div>{{ fullName }}</div>
-            <div>{{ today }}</div>
-            <hr />
-            <div>{{ puerta }}</div>
-            <button @click="open = !open">{{ open ? "Cerrar" : "Abrir" }}</button>
+        <div>
+        <h1 v-text="text"></h1>
+        <img v-bind:[attr]="img" v-bind:alt="img" width="500" />
+        <br />
+        <form>
+          <button v-on:click.prevent="decrement">-</button>
+          <p>{{counter}}</p>
+          <button v-on:click.prevent="increment">+</button>
+        </form>
+        <hr />
+        <p>{{text2}}</p>
+        <input type="text" @input="input" :value="text2" />
+        <p>{{text3}}</p>
+        <input type="text" v-model="text3" />
+        <div>{{ fullName }}</div>
+        <div>{{ today }}</div>
+        <hr />
+        <div class="container" :class="styles">
+          <h2>{{ puerta }}</h2>
+          <div v-if="open">
+            <p>Hola, {{ username }}</p>
           </div>
+          <div v-else>
+            <label>username:</label>
+            <input type="text" v-model="username" />
+          </div>
+          <button @click="open = !open">
+            <div v-if="!open">Acceder</div>
+            <div v-else>Salir</div>
+          </button>
+        </div>
+      </div>
         `,
       }).mount("#app");
     </script>
+    <style>
+      html,
+      body {
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      #app,
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+      }
+      button {
+        margin-top: 24px;
+        border: none;
+        background-color: white;
+        padding: 8px 24px;
+        border-radius: 12px;
+      }
+      .closed {
+        background-color: #eca1a6;
+      }
+      .open {
+        background-color: #b5e7a0;
+      }
+    </style>
   </body>
 </html>
