@@ -33,6 +33,9 @@
             },
             posts: [{ title: "Titulo 1", description: "Description 1" }],
             editButton: false,
+            items: ["item 1", "item 2", "item 3"],
+            hijo: "Hola Vue",
+            profundo: "Hola profundo",
           };
         },
         // Se define el atributo metodos para crear las funciones a utilizar dentro de los eventos
@@ -58,6 +61,15 @@
           },
 
           editPostInput() {},
+
+          remove(i) {
+            console.log(i);
+            const items = (this.item = this.items.filter(
+              (el, index) => index !== i
+            ));
+            console.log(items);
+            this.items = items;
+          },
         },
         computed: {
           fullName() {
@@ -82,6 +94,9 @@
               this.username = "";
             }
           },
+        },
+        provide: {
+          otroTexto: this.profundo,
         },
         // Prevent default para evitar que se envie el formulario
         //V-text sirve para mostrar texto
@@ -124,6 +139,17 @@
             <div class="list">
                 <item v-for="(item, i) in posts" :key="i" :post="item" :posts="posts"/>
             </div>
+            <div>
+                <p>{{hijo}}</p>
+                <v-input v-model:value="hijo"/>
+            </div>
+            <div>
+                <p>{{profundo}}</p>
+                <otro />
+            </div>
+            <ul>
+                <v-item v-for="(item, i) in items" v-bind:text="item" v-on:remove="remove(i)"/>
+            </ul>
           </div>
           <div v-else>
             <div>username</div>
@@ -139,7 +165,7 @@
 
       app.component("item", {
         props: ["post", "posts"],
-        template: ` 
+        template: `
         <div class="item">
             <div class="title">{{post.title}}</div>
                 <p>{{post.description}}</p>
@@ -156,8 +182,50 @@
         `,
       });
 
+      app.component("v-item", {
+        props: {
+          text: {
+            type: String,
+            required: true,
+            default: "Texto vacio",
+          },
+        },
+        methods: {
+          rm() {
+            this.$emit("remove");
+          },
+        },
+        template: `<li v-on:click="rm">{{text}}</li>`,
+      });
+
+      app.component("v-input", {
+        props: {
+          value: String,
+        },
+        methods: {
+          inputVon(e) {
+            this.$emit("update:value", e.target.value);
+          },
+        },
+        template: `<input type="text" v-bind:value="value" v-on:input="inputVon"/>`,
+      });
+
+      app.component("otro", {
+        template: `<tercer />`,
+      });
+
+      app.component("tercer", {
+        inject: {
+          otroTexto: {
+            from: "otroTexto",
+          },
+        },
+        template: `<div>{{otroTexto}}</div>`,
+      });
+
       const vm = app.mount("#app");
     </script>
+
     <style>
       html,
       body {
