@@ -10,8 +10,12 @@ sirve para mostrar texto
 
 ### `V-bind`
 
-permite enlazar (bindear) una variable de Vue con un atributo específico de una etiqueta HTML
+permite enlazar (bindear) una variable de Vue con un atributo específico de una etiqueta HTML, tambien se puede utilizar :
 
 ### `V-on`
 
-permite crear un evento para una etiqueta HTML
+permite crear un evento para una etiqueta HTML, tambien se puede utilizar @
+
+### `V-model`
+
+es la union del v-on y v-bind

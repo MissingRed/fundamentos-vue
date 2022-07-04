@@ -19,6 +19,8 @@
             img: "https://i.picsum.photos/id/1/5616/3744.jpg?hmac=kKHwwU8s46oNettHKwJ24qOlIAsWN9d2TtsXDoCWWsQ",
             attr: "src",
             counter: 0,
+            text2: "Hola Vue",
+            text3: "Hola Daniel",
           };
         },
         // Se define el atributo metodos para crear las funciones a utilizar dentro de los eventos
@@ -29,11 +31,15 @@
           decrement(e) {
             this.counter--;
           },
+          input(e) {
+            this.text2 = e.target.value;
+          },
         },
         // Prevent default para evitar que se envie el formulario
         //V-text sirve para mostrar texto
-        //V-bind permite enlazar (bindear) una variable de Vue con un atributo específico de una etiqueta HTML
-        //V-on permite crear un evento para una etiqueta HTML
+        //V-bind permite enlazar (bindear) una variable de Vue con un atributo específico de una etiqueta HTML @
+        //V-on permite crear un evento para una etiqueta HTML :
+        //V-model es la union del v-on y v-bind
 
         template: `
           <div>
@@ -50,6 +56,10 @@
               </button>
 
             </form>
+            <p>{{text2}}</p>
+            <input type="text" @input="input" :value="text2" />
+            <p>{{text3}}</p>
+            <input type="text" v-model="text3" />
           </div>
         `,
       }).mount("#app");
