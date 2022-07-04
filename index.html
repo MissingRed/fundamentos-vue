@@ -21,6 +21,9 @@
             counter: 0,
             text2: "Hola Vue",
             text3: "Hola Daniel",
+            firstName: "Daniel",
+            lastName: "Rodriguez",
+            now: new Date(),
           };
         },
         // Se define el atributo metodos para crear las funciones a utilizar dentro de los eventos
@@ -33,6 +36,14 @@
           },
           input(e) {
             this.text2 = e.target.value;
+          },
+        },
+        computed: {
+          fullName() {
+            return this.firstName + " " + this.lastName;
+          },
+          today() {
+            return this.now.toLocaleDateString();
           },
         },
         // Prevent default para evitar que se envie el formulario
@@ -54,12 +65,13 @@
                 <button v-on:click.prevent="increment">
                +
               </button>
-
             </form>
             <p>{{text2}}</p>
             <input type="text" @input="input" :value="text2" />
             <p>{{text3}}</p>
             <input type="text" v-model="text3" />
+            <div>{{ fullName }}</div>
+            <div>{{ today }}</div>
           </div>
         `,
       }).mount("#app");
